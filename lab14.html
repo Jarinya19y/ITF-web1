@@ -1,0 +1,71 @@
+<html lang = "en">
+    <head>
+        <title> lab 14 </title>
+        <link rel="stylesheet" href="labstyle.css">
+    </head>
+    <body>
+        <div class="head">
+            <h1 id="username">Username</h1>
+            <div id="picuser" class="picuser" style="position: relative;">
+                <div class="numbox" style="position:absolute; bottom: 15px; right:15px; height: 50px; width: 50px; background-color: rgb(255, 243, 77); display: flex;"><p style="position: relative; left: 20%; top:15%;">1</p></div>
+            </div>
+            <h1 class="name"><b>your phone book</b></h2>
+            <label for="">Set username</label>
+            <input type="text" placeholder="Enter" id="input"><button onclick="setname()">set</button>
+            <div></div>
+            <label for="">Set new profile</label>
+            <input type="text" placeholder="Enter" id="input"><button onclick="setpic()">set</button>
+            </div>
+            <div class="card" style="display: inline;">
+                <label for="">Firstname</label>
+                <input type="text" placeholder="Enter" id="input"><button onclick="createEle()">set</button>
+                <label for="">Surname</label>
+                <input type="text" placeholder="Enter" id="input"><button onclick="createEle()">set</button>
+            </div>
+        
+
+        <div class="grid-container">
+        <div class="nav-item">No.</div>
+        <div class="nav-item">Name</div>
+        <div class="nav-item">Phone Number</div>
+        </div>
+        
+        <script>
+            const username = document.getElementById("username");
+            const input = document.getElementById("input");
+            username.textContent= "Username";
+            picuser.textContent="pic";
+
+            const picuser = document.getElementById("picuser");
+
+            function setname(){
+                console.log(input.value);
+                username.textContent = input.value;
+                input.value = ""
+            };
+            function setpic(){
+                console.log(input.value);
+                picuser.style.backgroundImage = "url("+ input.value +")";
+                input.value = ""
+            };
+            function createEle(){
+                const a = document.createEle("p");
+                a.textContent= "Hello"
+                document.getElementById("parent").appendChild(a);
+                input.value = ""
+            };
+            function saveCSV() {
+                const csvContent = phonenumber.map(row => row.join(",")).join("\n"); // Convert array to CSV string
+                const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "data.csv");
+                link.style.visibility = "hidden";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+        </script>
+    </body>
+</html>
