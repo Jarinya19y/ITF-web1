@@ -1,0 +1,125 @@
+<html lang="en">
+    <head>
+        <title>Lab 14</title>
+        <link rel="stylesheet" href="labstyle.css">
+    </head>
+    <body>
+
+        <div class="head">
+            <h1 class= "username" id="username"><a href="https://github.com/Jarinya19y"><b>Jarinya Rattanapapron 67070019</b></a></h1>
+            
+            <div id="picuser" class="picuser" style="position: relative;">
+                <div class="numbox" style="position:absolute; bottom: 15px; right:15px; height: 30px; width: 30px; background-color: rgb(255, 243, 77); display: flex;">
+                    <p style="position: relative; left: 20%; top:15%;">1</p>
+                </div>
+            </div>
+            <h1 class="name"><b>Your Phone Book</b></h1>
+            <div>
+                <label for="username-input">Set username</label>
+                <input type="text" placeholder="Enter" id="username-input">
+                <button onclick="setname()">Set</button>
+            </div>
+            <div>
+                <label for="pic-input">Set new profile</label>
+                <input type="text" placeholder="Enter" id="pic-input">
+                <button onclick="setpic()">Set</button>
+            </div>
+        </div>
+        <div class="alltable">
+            <div class="table" style="display: flex; justify-content: center;">
+                <input class="data" type="text" id="nametel" placeholder="Name">
+                <input class="data" type="text" id="phonenumber" placeholder="Tel.">
+                <button onclick="addParagraph()">Add</button>
+                <button onclick="saveCSV()">Export</button>
+            </div>
+
+            <table id="teletable" style="width: 1000px; display: flexbox; justify-content: center; background-color: rgb(97, 105, 155);">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody style="color: rgb(0, 0, 0); background-color: rgb(172, 198, 255);">
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            const username = document.getElementById("username");
+            const picuser = document.getElementById("picuser");
+            const nameInput = document.getElementById("username-input");
+            const picInput = document.getElementById("pic-input");
+            let rowCount = 0;
+
+            function setname() {
+                const newName = nameInput.value.trim();
+                if (newName) {
+                    username.textContent = newName;
+                } else {
+                    alert("enter");
+                }
+                nameInput.value = "";
+            }
+
+            function setpic() {
+                const newPicUrl = picInput.value.trim();
+                if (newPicUrl) {
+                    picuser.style.backgroundImage = "url(" + newPicUrl + ")";
+                } else {
+                    alert("enter");
+                }
+                picInput.value = "";
+            }
+
+            function addParagraph() {
+                const titleText = document.getElementById('nametel').value.trim();
+                const paragraphText = document.getElementById('phonenumber').value.trim();
+                const tableBody = document.getElementById('teletable').querySelector('tbody');
+                rowCount++;
+
+                const newRow = document.createElement('tr');
+                const noCell = document.createElement('td');
+                noCell.textContent = rowCount;
+                const titleCell = document.createElement('td');
+                titleCell.textContent = titleText;
+                const paragraphCell = document.createElement('td');
+                paragraphCell.textContent = paragraphText;
+
+                newRow.appendChild(noCell);
+                newRow.appendChild(titleCell);
+                newRow.appendChild(paragraphCell);
+                tableBody.appendChild(newRow);
+
+                document.getElementById('nametel').value = '';
+                document.getElementById('phonenumber').value = '';
+            };
+
+            function saveCSV() {
+            const table = document.getElementById('teletable');
+            const rows = table.querySelectorAll('tbody tr');
+            let csvContent = "No.,Name,Phone Number\n";
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const rowData = Array.from(cells).map(cell => cell.textContent.trim()).join(",");
+                csvContent += rowData + "\n";
+            });
+
+
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "lab14.csv");
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            };
+        </script>
+
+    </body>
+    </html>
